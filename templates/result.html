@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Random Number Result</title>
+        <style>
+            pre {
+                white-space: pre-wrap;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Your random number is:</h1>
+        <h2>{{ random_num }}</h2>
+        <pre>{{ element | safe }}</pre>
+        <form action="/" method="post">
+            <br>
+            <input type="submit" value="Next">
+        </form>
+        <br>
+        <button onclick="window.location.href='/skip';">SKIP</button>
+    </body>
+</html>
