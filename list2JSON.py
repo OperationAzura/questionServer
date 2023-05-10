@@ -1,19 +1,18 @@
 import json
+import argparse
 
-input_filename = 'list.txt'
-output_filename = 'list.json'
+# Define the command-line arguments
+parser = argparse.ArgumentParser(description='Convert plain text file to JSON')
+parser.add_argument('-i', '--input-file', help='path to the input file', required=True)
+parser.add_argument('-o', '--output-file', help='path to the output file', required=True)
 
-with open(input_filename, 'r') as input_file:
-    text = input_file.read()
+# Parse the command-line arguments
+args = parser.parse_args()
 
-items = []
-for line in text.split('\n'):
-    if line.strip() != '':
-        items.append(line.strip().split('. ')[1])
+# Read the input file and convert to a list
+with open(args.input_file, 'r') as f:
+    lines = f.read().splitlines()
 
-json_data = json.dumps(items)
-
-with open(output_filename, 'w') as output_file:
-    output_file.write(json_data)
-
-print(f'Successfully saved JSON data to {output_filename}')
+# Write list to output file in JSON format
+with open(args.output_file, 'w') as f:
+    json.dump(lines, f, indent=4)
