@@ -21,7 +21,10 @@ random_numbers = []
 def home():
     if request.method == 'POST':
         gameState = GameState.fromDict(session['gameState'])
-        random_num = generate_unique_random(start_num, end_num)
+        random_num = generate_unique_random(start_num, end_num, gameState)
+        print('xxxxxxxxxxxxxxxxx')
+        print(gameState.numbers)
+        session['gameState'] = gameState.__dict__
         if random_num == 'game over':
             return 'GAME OVER'
         if random_num >= len(data):
@@ -33,6 +36,8 @@ def home():
 def skip():
     gameState = GameState.fromDict(session['gameState'])
     random_num = generate_unique_random(start_num, end_num)
+    print('xxxxxxxxx')
+    print(gameState.numbers)
     if random_num >= len(data):
         return 'Index out of range!'
     return render_template('result.html', player1=gameState.players[0], player2=gameState.players[1], element=data[random_num])
@@ -52,12 +57,14 @@ def new_game():
     session['gameState'] = gameState.__dict__
     return render_template('result.html', player1=player1, player2=player2)
 
-def generate_unique_random(start_num, end_num):
+def generate_unique_random(start_num, end_num, gameState):
+    random_numbers = gameState.numbers
     valid_range = [num for num in range(start_num, end_num+1) if num not in random_numbers]
     if not valid_range:
         return 'game over'
     rand_num = random.choice(valid_range)
     random_numbers.append(rand_num)
+    gameState.numbers = random_numbers
     return rand_num
 
 #save_game saves the state of the current game
