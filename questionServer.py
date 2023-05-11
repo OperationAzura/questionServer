@@ -22,8 +22,6 @@ def home():
     if request.method == 'POST':
         gameState = GameState.fromDict(session['gameState'])
         random_num = generate_unique_random(start_num, end_num, gameState)
-        print('xxxxxxxxxxxxxxxxx')
-        print(gameState.numbers)
         session['gameState'] = gameState.__dict__
         if random_num == 'game over':
             return 'GAME OVER'
@@ -35,9 +33,9 @@ def home():
 @app.route('/skip')
 def skip():
     gameState = GameState.fromDict(session['gameState'])
-    random_num = generate_unique_random(start_num, end_num)
-    print('xxxxxxxxx')
-    print(gameState.numbers)
+    gameState.numbers = gameState.numbers[:-1]
+    random_num = generate_unique_random(start_num, end_num, gameState)
+    session['gameState'] = gameState.__dict__
     if random_num >= len(data):
         return 'Index out of range!'
     return render_template('result.html', player1=gameState.players[0], player2=gameState.players[1], element=data[random_num])
