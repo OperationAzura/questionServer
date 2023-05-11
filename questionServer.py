@@ -1,7 +1,7 @@
 import json
 from flask import Flask, request, render_template, session
 import random
-from gameStateClass import GameState,  GameStateEncoder
+from gameStateClass import GameState
 
 data = []
 
